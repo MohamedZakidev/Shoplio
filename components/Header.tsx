@@ -7,14 +7,14 @@ import Link from "next/link"
 function Header() {
     const { user } = useUser()
 
-    async function createClerkPassKey() {
-        try {
-            const response = await user?.createPasskey()
-            console.log(response)
-        } catch (error) {
-            console.error("Errors:", JSON.stringify(error, null, 2))
-        }
-    }
+    // async function createClerkPassKey() {
+    //     try {
+    //         const response = await user?.createPasskey()
+    //         console.log(response)
+    //     } catch (error) {
+    //         console.error("Errors:", JSON.stringify(error, null, 2))
+    //     }
+    // }
 
     return (
         <header className="flex flex-wrap justify-between items-center px-4 py-2">

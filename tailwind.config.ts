@@ -23,7 +23,8 @@ export default {
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
-					"500": "#9F2B68"
+					"500": "rgba(159,43,104,1)",
+					"100": "rgba(159,43,104,0.2)"
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
