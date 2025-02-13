@@ -9,7 +9,7 @@ function ProductThumbnail({ product }: { product: Product }) {
     return (
         <Link
             href={`/product/${product.slug?.current}`}
-            className={`group flex flex-col bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden 
+            className={`group flex flex-col bg-white w-full rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden 
                 ${isOutOfStock ? "opacity-50" : ""}`}
         >
             <div className="relative w-full h-full aspect-square overflow-hidden">
