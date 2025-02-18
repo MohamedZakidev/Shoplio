@@ -1,11 +1,13 @@
 import CategoriesView from "@/components/CategoriesView"
 import ProductsGrid from "@/components/ProductsGrid"
+import { getAllCategories } from "@/sanity/lib/categories/getAllCategories"
 import { searchProductByName } from "@/sanity/lib/products/searchProductByName"
 import { searchParamsProps } from "@/types"
 
 async function SearchPage({ searchParams }: searchParamsProps) {
     const { query } = (await searchParams)
     const searchedProducts = await searchProductByName(query)
+    const categories = await getAllCategories()
 
     if (searchedProducts.length === 0) {
         return (
@@ -28,7 +30,7 @@ async function SearchPage({ searchParams }: searchParamsProps) {
                 <h1 className="text-3xl font-bold mb-6 text-center">
                     Search results for : {query}
                 </h1>
-                <CategoriesView />
+                <CategoriesView categories={categories} />
                 <ProductsGrid products={searchedProducts} />
             </div>
         </div>
