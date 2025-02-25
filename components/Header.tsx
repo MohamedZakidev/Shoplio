@@ -1,4 +1,5 @@
 "use client"
+import { useBasketStore } from "@/store/store"
 import { ClerkLoaded, SignInButton, UserButton, useUser } from "@clerk/nextjs"
 import { PackageIcon, TrolleyIcon } from "@sanity/icons"
 import Form from "next/form"
@@ -6,7 +7,11 @@ import Link from "next/link"
 
 function Header() {
     const { user } = useUser()
-
+    const items = useBasketStore(state => state.items)
+    const basketItemsCount = items.reduce((total, item) => {
+        return total + item.quantity
+    }, 0)
+    // console.log({ basketItemsCount })
     // async function createClerkPassKey() {
     //     try {
     //         const response = await user?.createPasskey()
@@ -17,7 +22,7 @@ function Header() {
     // }
 
     return (
-        <header className="flex flex-wrap justify-between items-center px-4 py-2">
+        <header className="flex flex-col md:flex-row justify-between items-center px-4 py-2">
             {/* top row */}
             <Link href={"/"}
                 className="text-2xl font-bold text-primary-500 hover:opacity-50 cursor-pointer mx-auto sm:mx-0 capitalize"
@@ -26,21 +31,23 @@ function Header() {
             </Link>
             <Form
                 action={"/search"}
-                className="w-full sm:w-auto sm:flex-1 sm:mx-4 mt-2 sm:mt-0"
+                className="w-full md:w-auto sm:flex-1 sm:mx-4 mt-2 sm:mt-0"
             >
                 <input
                     name="query"
                     type="search"
                     placeholder="Search for products"
-                    className="w-full max-w-4xlbg-gray-100 text-gray-800 px-4 py-2 rounded focus:outline-none focus:ring-2 border"
+                    className="w-full max-w-4xl bg-gray-100 text-gray-800 px-4 py-2 rounded focus:outline-none focus:ring-2 border"
                 />
             </Form>
-            <div className="flex flex-wrap gap-2 justify-center mt-4 sm:mt-0 borde w-full sm:w-auto">
+            <div className="flex flex-wrap gap-4 justify-center mt-4 md:mt-0 borde w-full sm:w-auto">
                 <Link href={"/basket"}
-                    className="primary-btn text-xs sm:text-base"
+                    className="primary-btn text-xs sm:text-base relative"
                 >
                     <TrolleyIcon className="w-6 h-6" />
-                    {/* span item count */}
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full size-5 flex items-center justify-center text-xs">
+                        {basketItemsCount}
+                    </span>
                     <span>my basket</span>
                 </Link>
 

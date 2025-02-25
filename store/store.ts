@@ -41,8 +41,9 @@ export const useBasketStore = create<BasketState>()(
             removeItem: (productId: string) => set((state) => {
                 const existedItem = state.items.find((item) => item.product._id === productId)
                 if (existedItem?.quantity === 1) {
+                    existedItem.quantity--
                     return {
-                        items: state.items.filter(item => item.product._id === productId)
+                        items: state.items.filter(item => item.product._id !== productId)
                     }
                 } else {
                     return {
