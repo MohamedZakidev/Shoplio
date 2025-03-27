@@ -2,19 +2,13 @@
 
 import BasketButton from "@/components/BasketButton";
 import Loader from "@/components/Loader";
+import { createCheckoutSession, Metadata } from "@/lib/actions/stripe";
 import { generateImageURL } from "@/sanity/lib/utilities/generateImageURL";
 import { useBasketStore } from "@/store/store";
 import { SignInButton, useAuth, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
-export type Metadata = {
-    orderNumber: string,
-    customerName: string,
-    customerEmail: string,
-    clerkUserId: string
-}
 
 function BasketPage() {
     const groupedItems = useBasketStore(state => state.getGroupedItems())
@@ -44,10 +38,9 @@ function BasketPage() {
                 customerName: user?.fullName ?? "Unknown",
                 customerEmail: user?.emailAddresses[0].emailAddress ?? "Unknown"
             }
-            const checkoutUrl = await createCheckoutSession()
+            const checkoutUrl = await createCheckoutSession(groupedItems, metadata)
             if (checkoutUrl) {
-                router.push(checkoutUrl)
-                // window.location.href = checkoutUrl
+                window.location.href = checkoutUrl
             }
         }
         catch (error) {

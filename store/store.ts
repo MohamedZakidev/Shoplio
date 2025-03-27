@@ -2,7 +2,7 @@ import { Product } from '@/sanity.types'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-type BasketItem = {
+export type BasketItem = {
     product: Product
     quantity: number
 }
