@@ -12,7 +12,7 @@ export type Metadata = {
 }
 
 export type GroupedBasketItem = {
-    product: BasketItem["product"],
+    product: BasketItem["product"], //extracts the type of the product property from BasketItem equals to type Product
     quantity: number
 }
 
@@ -24,14 +24,21 @@ export async function createCheckoutSession(items: GroupedBasketItem[], metadata
             throw new Error("some items do not have a price")
         }
 
+        // check for existing customer by email
         const customer = await stripe.customers.list({
             email: metadata.customerEmail,
             limit: 1
         })
+
         let customerId: string | undefined
         if (customer.data.length > 0) {
             customerId = customer.data[0].id
         }
+
+        const baseUrl = process.env.NODE_ENV === "production" ? `https://${process.env.VERCEL_URL}` : process.env.NEXT_PUBLIC_BASE_URL
+        const success_url = `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}&order_number=${metadata.orderNumber}`
+        const cancel_url = `${baseUrl}/basket`
+
         const session = await stripe.checkout.sessions.create({
             customer: customerId,
             customer_creation: customerId ? undefined : "always",
@@ -39,8 +46,8 @@ export async function createCheckoutSession(items: GroupedBasketItem[], metadata
             metadata: metadata,
             mode: "payment",
             allow_promotion_codes: true,
-            success_url: `${`https://${process.env.VERCEL_URL}` || process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}&order_number=${metadata.orderNumber}`,
-            cancel_url: `${`https://${process.env.VERCEL_URL}` || process.env.NEXT_PUBLIC_BASE_URL}/basket`,
+            success_url: success_url,
+            cancel_url: cancel_url,
             line_items: items.map(item => (
                 {
                     price_data: {

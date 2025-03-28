@@ -24,6 +24,7 @@ function BasketPage() {
     useEffect(() => {
         setIsClient(true)
     }, [])
+
     if (!isClient) {
         return <Loader />
     }
