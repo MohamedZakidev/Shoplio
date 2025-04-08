@@ -1,8 +1,11 @@
+import { DisableDraftMode } from "@/components/DisableDraftMode";
 import Header from "@/components/Header";
 import { SanityLive } from "@/sanity/lib/live";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
+import { VisualEditing } from "next-sanity";
 import { Poppins } from "next/font/google";
+import { draftMode } from "next/headers";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -12,7 +15,7 @@ export const metadata: Metadata = {
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800", "900"] })
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -21,6 +24,12 @@ export default function RootLayout({
     <ClerkProvider dynamic>
       <html lang="en">
         <body className={poppins.className}>
+          {(await draftMode()).isEnabled && (
+            <>
+              <VisualEditing />
+              <DisableDraftMode />
+            </>
+          )}
           <Header />
           <main>
             {children}
