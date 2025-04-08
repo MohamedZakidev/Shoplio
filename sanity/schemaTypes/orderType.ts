@@ -8,6 +8,12 @@ export const orderType = defineType({
     icon: BasketIcon,
     fields: [
         defineField({
+            name: "clerkUserId",
+            title: "Clerk User ID",
+            type: "string",
+            validation: (Rule) => Rule.required()
+        }),
+        defineField({
             name: "orderNumber",
             title: "Order Number",
             type: "string",
@@ -126,7 +132,7 @@ export const orderType = defineType({
             amount: "totalPrice",
             currency: "currency",
             orderId: "orderNumber",
-            email: "emai"
+            email: "email"
         },
         prepare(select) {
             const orderIdSnippet = `${select.orderId.slice(0, 5)}...${select.orderId.slice(-5)}`

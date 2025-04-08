@@ -6,7 +6,7 @@ type ProductsViewProps = {
 }
 function ProductsView({ products }: ProductsViewProps) {
     return (
-        <div className="flex-1">
+        <div className="flex-1 border">
             <div>
                 <ProductsGrid products={products} />
                 <hr className="w-1/2 sm:w-3/4" />

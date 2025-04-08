@@ -15,7 +15,7 @@ function ProductThumbnail({ product }: { product: Product }) {
             <div className="relative w-full h-full aspect-square overflow-hidden">
                 {product.image && (
                     <Image
-                        className="object-contain transition-transform duration-300 group-hover:scale-105"
+                        className="object-contain transition-transform duration-300 group-hover:scale-105 max-w-lg"
                         src={generateImageURL(product.image).url()}
                         alt={product.name || "Product Image"}
                         fill

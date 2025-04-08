@@ -11,8 +11,8 @@ export default async function Home() {
   return (
     <div>
       <SalesBanner />
-      <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
-        <div className="flex flex-col ">
+      <div className="flex flex-col min-h-screen bg-gray-100 p-4">
+        <div className="flex flex-col">
           <CategoriesView categories={categories} />
           <ProductsView products={products} />
         </div>

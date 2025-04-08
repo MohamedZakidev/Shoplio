@@ -6,10 +6,10 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 export async function POST(req: NextRequest) {
-    console.log("post runs heeeeeeeereeee")
     const body = await req.text()
     const headersList = await headers()
     const signature = headersList.get("stripe-signature")
+
     if (!signature) {
         return NextResponse.json({ error: "No signature provided" }, { status: 400 })
     }
@@ -64,8 +64,8 @@ async function createOrderSanity(session: Stripe.Checkout.Session) {
         product: {
             _type: "reference",
             _ref: (item.price?.product as Stripe.Product)?.metadata?.id,
-            quantity: item.quantity || 0,
-        }
+        },
+        quantity: item.quantity || 0,
     }))
     const order = await backendClient.create({
         _type: "order",
@@ -82,7 +82,24 @@ async function createOrderSanity(session: Stripe.Checkout.Session) {
         products: sanityProducts,
         totalPrice: amount_total ? amount_total / 100 : 0,
         status: "paid",
-        orderDate: new Date().toISOString(),
+        orderDate: new Date().toString(),
     })
     return order
 }
+
+// export async function POST(req: NextRequest) {
+//     console.log("Webhook request received"); // Log when the function runs
+//     const body = await req.text();
+//     console.log("Raw body:", body); // Log raw request body
+//     const headersList = await headers()
+
+//     // const headersList = req.headers; // Use req.headers instead of headers()
+//     console.log("Headers received:", Object.fromEntries(headersList.entries())); // Log all headers
+
+//     // Get Stripe signature
+//     const signature = headersList.get("stripe-signature");
+//     console.log("Stripe Signature:", signature); // Log Stripe signature
+
+//     return new Response("OK", { status: 200 });
+// }
+
