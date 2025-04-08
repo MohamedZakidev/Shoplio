@@ -5,9 +5,13 @@ import { PortableText } from "next-sanity";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-static"
+export const revalidate = 60; // Revalidate every 60 seconds
+
 async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params
     const product = await getProductBySlug(slug)
+
 
     if (!product) {
         notFound()
@@ -17,8 +21,8 @@ async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className={`relative aspect-square overflow-hidden rounded-lg shadow-lg ${isOutOfStock ? "opacity-50" : ""}`}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div className={`lg:w-[80%] lg:justify-self-center aspect-square border relative overflow-hidden rounded-lg shadow-lg ${isOutOfStock ? "opacity-50" : ""}`}>
                     {product.image && (
                         <Image
                             className="object-contain transition-transform duration-300 hover:scale-105"
@@ -48,7 +52,7 @@ async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
                     </div>
                 </div>
 
-                <div className="mt-6">
+                <div className="lg:w-[80%] justify-self-center">
                     <BasketButton product={product} />
                 </div>
 
