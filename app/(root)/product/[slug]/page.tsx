@@ -45,7 +45,7 @@ async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
                     <p className="text-xl font-semibold mb-4">
                         £{product.price?.toFixed(2)}
                     </p>
-                    <div className="prose max-w-none mb-6">
+                    <div className="prose max-w-[450px] mb-6">
                         {Array.isArray(product.description) && (
                             <PortableText value={product.description} />
                         )}

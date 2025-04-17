@@ -15,7 +15,7 @@ async function SalesBanner() {
                     <h2 className="text-3xl sm:text-5xl font-extrabold text-left mb-4">
                         {sale.title}
                     </h2>
-                    <p className="text-left text-xl sm:text-3xl font-semibold mb-6">
+                    <p className="text-left text-lg text-gray-300 font-semibold mb-6">
                         {sale.description}
                     </p>
                 </div>
